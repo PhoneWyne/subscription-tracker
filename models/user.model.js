@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 // timestamps: true, creates createdAt, updatedAt fields automatically
 
-
 const User = mongoose.model('User', userSchema);
 
 export default User;
+

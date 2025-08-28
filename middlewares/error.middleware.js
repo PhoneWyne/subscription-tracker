@@ -32,6 +32,7 @@ const errorMiddleware = (err, req, res, next) => {
             error.statusCode = 400;
         }
 
+        // calling res.status ends request-response cycle, so we don't need to call .next()
         res // response
             .status(error.statusCode || 500) //incase error is not of the 3 types above, it would have undefined statusCode, in that case, assign status of 500 to response
             .json({ success: false, error: error.message || 'Server Error'});

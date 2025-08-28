@@ -74,7 +74,7 @@ const subscriptionSchema = new mongoose.Schema({
 }, { timestamps: true})
 
 // .pre() ran before document is created and saved to db
-// using this. , so use function() {}, not arrow functions () => {}
+// using this. , so use function() {}, not arrow functions () => {} // `this` refers to document being saved
 // auto-calculate renewal date if missing
 subscriptionSchema.pre('save', function (next) {
     if(!this.renewalDate) {
@@ -89,7 +89,7 @@ subscriptionSchema.pre('save', function (next) {
         // adding renewalPeriods to startDate on basis of frequency we passed
         // startDate = Jan 1st, frequency = Monthly (30 days)
         // renewalDate = Jan 1st + 30 days => Jan 31st
-        this.renewalDate.setDate(this.renewalDate.getDate() + this.renewalDate[this.frequency]);
+        this.renewalDate.setDate(this.renewalDate.getDate() + renewalPeriods[this.frequency]);
     }
 
     // auto-update the status if renewal date has passed
@@ -100,3 +100,7 @@ subscriptionSchema.pre('save', function (next) {
     // makes creation of document proceed on
     next();
 });
+
+const Subscription = mongoose.model('Subscription', subscriptionSchema)
+
+export default Subscription;
